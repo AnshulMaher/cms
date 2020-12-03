@@ -1,0 +1,14 @@
+.logout {
+  cursor: pointer;
+}
+
+.search-result {
+  position: absolute;
+  top: 100%;
+  background: #80808026;
+  height: 200%;
+}
+
+.search-result li {
+  list-style: none;
+}

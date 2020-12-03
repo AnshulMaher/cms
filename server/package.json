@@ -1,0 +1,38 @@
+{
+    "name": "server",
+    "version": "1.0.0",
+    "description": "",
+    "main": "server.js",
+    "scripts": {
+        "dev": "nodemon server.js",
+        "start": "npm server.js",
+        "both": "concurrently --kill-others-on-fail \"npm run dev\" \"cd.. && cd client && serve -s build\""
+    },
+    "author": "Anshul Maher",
+    "license": "ISC",
+    "dependencies": {
+        "bcryptjs": "^2.4.3",
+        "compression": "^1.7.4",
+        "cookie-parse": "^0.4.0",
+        "cookie-parser": "^1.4.5",
+        "cors": "^2.8.5",
+        "dotenv": "^8.2.0",
+        "express": "^4.17.1",
+        "express-mongo-sanitize": "^2.0.0",
+        "express-rate-limit": "^5.2.3",
+        "helmet": "^4.2.0",
+        "hpp": "^0.2.3",
+        "joi": "^17.3.0",
+        "jsonwebtoken": "^8.5.1",
+        "mongoose": "^5.10.16",
+        "morgan": "^1.10.0",
+        "multer": "^1.4.2",
+        "sharp": "^0.26.3",
+        "slugify": "^1.4.6",
+        "xss-clean": "^0.1.1"
+    },
+    "devDependencies": {
+        "concurrently": "^5.3.0",
+        "nodemon": "^2.0.6"
+    }
+}

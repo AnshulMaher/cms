@@ -1,0 +1,31 @@
+/* .homePageWrapper {
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
+  width: 850px;
+  margin: 30px auto;
+}
+
+.container {
+  width: 850px;
+  margin: 30px auto;
+}
+.formContainer {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+}
+.formSection {
+  width: 380px;
+  display: flex;
+  flex-direction: column;
+}
+
+.formTitle {
+  margin: 10px 0;
+}
+
+.buttonsBarContainer {
+  display: flex;
+  justify-content: space-between;
+} */
