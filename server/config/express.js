@@ -22,8 +22,8 @@ app.enable('trust proxy');
 // GLOBAL MIDDLEWARES
 app.use(
   cors({
-    origin: 'http://localhost:5000',
-    credentials: true
+    origin:"http://localhost:5000",
+    credentials:true
   })
 );
 /* set security http headers */

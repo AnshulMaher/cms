@@ -1,6 +1,6 @@
 import axios from 'axios';
 import catchAsyncError from './catchAsyncError';
-
+axios.defaults.withCredentials = true;
 const API = 'http://localhost:3000/api/v1';
 
 export const isLoggedIn = catchAsyncError(() => {

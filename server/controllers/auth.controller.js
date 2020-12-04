@@ -22,7 +22,6 @@ const createAndSendToken = (user, statusCode, req, res) => {
   });
 
   user.password = undefined;
-
   res.status(statusCode).json({ status: 'success', token, data: user });
 };
 
@@ -42,7 +41,7 @@ exports.signup = catchAsyncError(async (req, res, next) => {
 
 exports.login = catchAsyncError(async (req, res, next) => {
   const { email, password } = req.body;
-
+  
   // 1) If email and password actually exist
   if (!email || !password) {
     return next(new CustomError(400, 'Please provide email and password'));
