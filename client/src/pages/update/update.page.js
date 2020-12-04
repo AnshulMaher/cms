@@ -117,7 +117,7 @@ const UpdatePage = ({ history }) => {
             dispatch(updateCandidateSuccess(exc));
             setUtils({ isLoading: false, error: null, success: 'Candidate details successfully updated' });
             setTimeout(() => {
-                history.push('/');
+                history.push('/#top');
             }, 3000);
         }
     };

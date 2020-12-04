@@ -44,7 +44,6 @@ const CandidateSchema = new mongoose.Schema({
         type: Number,
         require: [true, 'Relevant experience field needed']
     },
-    area: String,
     city: {
         type: String,
         require: [true, 'City is required']
@@ -67,31 +66,33 @@ const CandidateSchema = new mongoose.Schema({
     },
     status: {
         type: String,
-        enum: ['interested', 'not looking', 'not relevant', 'not available', 'not reachable', 'call back later', 'high np', 'high expectation', 'location issue']
+        default: 'placeholder',
+        enum: ['placeholder', 'interested', 'not looking', 'not relevant', 'not available', 'not reachable', 'call back later', 'high np', 'high expectation', 'location issue']
     },
     changeReason: {
         type: String
     },
     interviewProcess: {
         type: String,
-        enum: ['Feedback Pending', 'L1Done', 'L2Done', 'L3Done', 'L4Done', 'L5Done', 'HR done']
+        default: 'placeholder',
+        enum: ['placeholder', 'Feedback Pending', 'L1Done', 'L2Done', 'L3Done', 'L4Done', 'L5Done', 'HR done']
     },
     joinStatus: {
         type: String,
-        enum: ['Joining', 'Offer accepted', 'Offer rejected', 'Joined']
+        default: 'placeholder',
+        enum: ['placeholder', 'Joining', 'Offer accepted', 'Offer rejected', 'Joined']
     },
     skills: {
         type: [String],
         require: [true, 'Skills cannot be empty']
     },
     Feedback: {
-        type: Number,
-        require: [true, 'Please provide feedback']
+        type: Number
     },
     recruiter: {
         type: mongoose.Schema.ObjectId,
         ref: 'User',
-        required: [true, 'candidate must be handled by a recruiter.']
+        required: [true, 'Candidate must be handled by a recruiter']
     }
 });
 

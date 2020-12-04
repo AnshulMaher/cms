@@ -5,14 +5,7 @@ import 'react-autocomplete-input/dist/bundle.css';
 
 import { fetchCandidateSuccess, createCandidateSuccess, removeCandidate } from '../../redux/candidate/candidate.actions';
 
-import {
-    selectCandidateEducation,
-    selectCandidateNoticePeriod,
-    selectCandidateStatus,
-    selectCandidateInterviewStatus,
-    selectCandidateJoinStatus,
-    selectCandidateChangeReason
-} from '../../redux/candidateList/candidate.selectors';
+import { selectCandidateEducation, selectCandidateNoticePeriod } from '../../redux/candidateList/candidate.selectors';
 import { selectStates } from '../../redux/location/location.selectors';
 import { selectCandidate } from '../../redux/candidate/candidate.selectors';
 
@@ -20,17 +13,16 @@ import IsAuthenticated from '../../components/is-authenticated-hoc/is-authentica
 import FormInput from '../../components/form-input/form-input.component';
 import FormSelect from '../../components/form-select/form-select.component';
 import ExistingCandidateBox from '../../components/existing-candidate-box/existing-candidate-box.component';
-// import DynamicFormField from '../../components/dynamic-form-field/dynamic-form-field.component';
 
 import { skillData } from '../../redux/skills/skills.data';
 
-import { validateEmail, clearFormState } from '../../utils/utitlity';
+import { validateEmail } from '../../utils/utitlity';
 import { getCandidateByEmail, createNewCandidate } from '../../utils/apiCall';
 import { showAlert } from '../../utils/showMessages';
 
 import './home.styles.css';
 
-const HomePage = () => {
+const HomePage = ({ history }) => {
     const [candidateData, setCandidateData] = useState({
         clientName: '',
         currentDesignation: '',
@@ -41,18 +33,12 @@ const HomePage = () => {
         totalExperience: '',
         relevantExperience: '',
         phoneNumber: '',
-        area: '',
         city: '',
         state: '',
         email: '',
         currentCTC: '',
         expectedCTC: '',
-        noticePeriod: '',
-        status: '',
-        joinStatus: '',
-        dob: '',
-        changeReason: '',
-        interviewStatus: ''
+        noticePeriod: ''
     });
 
     const [utils, setUtils] = useState({ foundMail: false, isLoading: false, success: null, error: null });
@@ -62,10 +48,6 @@ const HomePage = () => {
     const educationOptions = useSelector(selectCandidateEducation);
     const stateOptions = useSelector(selectStates);
     const noticePeriodOptions = useSelector(selectCandidateNoticePeriod);
-    const statusOptions = useSelector(selectCandidateStatus);
-    const joinStatusOptions = useSelector(selectCandidateJoinStatus);
-    const interviewStatusOptions = useSelector(selectCandidateInterviewStatus);
-    const changeReasonOptions = useSelector(selectCandidateChangeReason);
 
     const {
         clientName,
@@ -78,21 +60,16 @@ const HomePage = () => {
         relevantExperience,
         phoneNumber,
         email,
-        area,
         city,
         state,
         currentCTC,
         expectedCTC,
-        noticePeriod,
-        status,
-        joinStatus,
-        dob,
-        changeReason,
-        interviewStatus
+        noticePeriod
     } = candidateData;
 
     useEffect(() => {
         dispatch(removeCandidate());
+        window.scrollTo(0, 0);
     }, []);
 
     const handleChangeSkill = (skills) => {
@@ -127,25 +104,23 @@ const HomePage = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        const data = { ...candidateData };
         setUtils({ isLoading: true, success: null, error: null });
-        const res = await createNewCandidate(data);
+        const res = await createNewCandidate(candidateData);
         if (res.error) {
             setUtils({ isLoading: false, success: null, error: 'Failed to save! Either details filled incorrectly or server error' });
             return;
         } else if (res.data.status === 'success') {
             const exc = res.data.data;
             dispatch(createCandidateSuccess(exc));
-            setUtils({ isLoading: false, error: null, success: 'Candidate successfully saved' });
-            setCandidateData(clearFormState());
+            setUtils({ ...utils, isLoading: false, error: null });
+            history.push('/complete-candidate-submit');
         }
     };
 
     return (
         <div className="row">
-            {utils.isLoading && showAlert('info', 'Loading....', 3)}
+            {utils.isLoading && showAlert('info', 'Submitting Please Wait', 2)}
             {utils.error && showAlert('danger', utils.error, 5)}
-            {utils.success && showAlert('success', utils.success, 5)}
             {utils.foundMail && existingCandidate ? <ExistingCandidateBox candidate={existingCandidate} /> : null}
 
             <div className="col-md-8 order-md-1">
@@ -179,15 +154,18 @@ const HomePage = () => {
                         <div className="col-md-5 mb-3">
                             <FormInput label="Current Company" name="currentCompany" type="text" value={currentCompany} placeholder="ex. xyz ltd." handleChange={handleChange} required />
                         </div>
-
-                        <div className="col-md-3 mb-3">
-                            <FormSelect label="Education" name="education" values={educationOptions} selectedValue={education} handleChange={handleChange} required />
+                        <div className="col-md-4 mb-3">
+                            <FormInput label="Client Name" name="clientName" type="text" value={clientName} placeholder="ex. abc inc." handleChange={handleChange} required />
                         </div>
                     </div>
-
+                    <hr className="mb-4" />
+                    <div className="mb-3">
+                        <label>Skills</label>
+                        <TextInput trigger="" spacer="," name="skills" options={skillData} defaultValue={skills.join(',')} onChange={handleChangeSkill} className="form-control" />
+                    </div>
                     <div className="row">
                         <div className="col-md-4 mb-3">
-                            <FormInput label="Client Name" name="clientName" type="text" value={clientName} placeholder="ex. John Doe" handleChange={handleChange} required />
+                            <FormSelect label="Education" name="education" values={educationOptions} selectedValue={education} handleChange={handleChange} required />
                         </div>
                         <div className="col-md-4 mb-3">
                             <FormInput label="Total Experience" name="totalExperience" type="number" value={totalExperience} placeholder="ex. 3" handleChange={handleChange} required />
@@ -196,16 +174,7 @@ const HomePage = () => {
                             <FormInput label="Relevant Experience" name="relevantExperience" type="number" value={relevantExperience} placeholder="ex. 2" handleChange={handleChange} required />
                         </div>
                     </div>
-                    <div className="mb-3">
-                        <label>Skills</label>
-                        <TextInput trigger="" spacer="," name="skills" options={skillData} defaultValue={skills.join(',')} onChange={handleChangeSkill} className="form-control" />
-                    </div>
-
                     <hr className="mb-4" />
-                    <div className="mb-3">
-                        <FormInput label="Address Locality" name="area" type="text" value={area} placeholder="ex. 1234 Main St, opo. King's Hall" handleChange={handleChange} />
-                    </div>
-
                     <div className="row">
                         <div className="col-md-5 mb-3">
                             <FormInput label="City" name="city" type="text" value={city} placeholder="ex. Ahemdabad" handleChange={handleChange} required />
@@ -222,30 +191,8 @@ const HomePage = () => {
                         <div className="col-md-4 mb-3">
                             <FormInput label="Expected CTC" name="expectedCTC" type="number" value={expectedCTC} placeholder="ex. 43000" handleChange={handleChange} required />
                         </div>
-                    </div>
-
-                    <div className="row mt-3">
                         <div className="col-md-4 mb-3">
                             <FormSelect label="Notice Period" name="noticePeriod" values={noticePeriodOptions} selectedValue={noticePeriod} placeholder="ex. 1" handleChange={handleChange} required />
-                        </div>
-                        <div className="col-md-4 mb-3">
-                            <FormSelect label="Status" name="status" values={statusOptions} selectedValue={status} handleChange={handleChange} required />
-                        </div>
-                        <div className="col-md-4 mb-3">
-                            <FormSelect label="Join Status" name="joinStatus" values={joinStatusOptions} selectedValue={joinStatus} handleChange={handleChange} required />
-                        </div>
-                    </div>
-                    <hr className="mb-4" />
-                    <h4 className="mb-2">Optional Fields</h4>
-                    <div className="row mt-3">
-                        <div className="col-md-4 mb-3">
-                            <FormInput label="Birth Date" name="dob" type="date" value={dob} handleChange={handleChange} />
-                        </div>
-                        <div className="col-md-4 mb-3">
-                            <FormSelect label="Reason For Change" name="joinStatus" values={changeReasonOptions} selectedValue={changeReason} handleChange={handleChange} />
-                        </div>
-                        <div className="col-md-4 mb-3">
-                            <FormSelect label="Interview Process" name="interviewStatus" values={interviewStatusOptions} selectedValue={interviewStatus} handleChange={handleChange} />
                         </div>
                     </div>
                     <hr className="mb-4" />

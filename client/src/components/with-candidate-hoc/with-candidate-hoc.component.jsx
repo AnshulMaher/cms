@@ -2,7 +2,7 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 import { selectCandidate } from '../../redux/candidate/candidate.selectors';
 
-const WithCandidate = (WrappedComponent, currentUser) => {
+const WithCandidate = (WrappedComponent) => {
     const WithCandidateComponent = ({ ...otherProps }) => {
         const existingCandidate = useSelector(selectCandidate);
         return existingCandidate ? (

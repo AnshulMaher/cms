@@ -29,9 +29,14 @@ const ExistingCandidateBox = ({ candidate }) => {
             </ul>
             <div className="input-group-append">
                 {currentUser._id === candidate.recruiter ? (
-                    <button className="btn btn-secondary" onClick={() => history.push(`/details/${_id}`)}>
-                        View Detail
-                    </button>
+                    <>
+                        <button className="btn btn-sm btn-secondary mr-2" onClick={() => history.push(`/details/${_id}`)}>
+                            View
+                        </button>
+                        <button className="btn btn-sm btn-info" onClick={() => history.push(`/details/${_id}`)}>
+                            Update
+                        </button>
+                    </>
                 ) : null}
             </div>
         </div>

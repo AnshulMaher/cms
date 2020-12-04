@@ -1,15 +1,10 @@
-import { useSelector } from 'react-redux';
 import moment from 'moment';
 import IsAuthenticated from '../../components/is-authenticated-hoc/is-authenticated-hoc.component';
-import { selectCandidate } from '../../redux/candidate/candidate.selectors';
 import WithCandidate from '../../components/with-candidate-hoc/with-candidate-hoc.component';
 
-const DetailPage = ({ history }) => {
-    const existingCandidate = useSelector(selectCandidate);
-
+const DetailPage = ({ history, existingCandidate }) => {
     const {
         _id,
-        date,
         clientName,
         currentDesignation,
         candidateName,
@@ -20,16 +15,17 @@ const DetailPage = ({ history }) => {
         relevantExperience,
         phoneNumber,
         email,
-        area,
         city,
         state,
         currentCTC,
         expectedCTC,
         noticePeriod,
+        date,
+        dob,
         status,
         joinStatus,
         changeReason,
-        interviewStatus
+        interviewProcess
     } = existingCandidate;
 
     return (
@@ -48,7 +44,7 @@ const DetailPage = ({ history }) => {
                         <div className="profile-head">
                             <h5>{candidateName}</h5>
                             <h6>Pofile: {currentDesignation}</h6>
-                            <h6>Address: {`${area}, ${city}, ${state}`}</h6>
+                            <h6>Location: {`${city}, ${state}`}</h6>
                             <p className="proile-rating">
                                 Date of calling : <span>{moment(date).format('DD-MM-YYYY')}</span>
                             </p>
@@ -93,6 +89,16 @@ const DetailPage = ({ history }) => {
                                         <p>{candidateName}</p>
                                     </div>
                                 </div>
+                                {dob && (
+                                    <div className="row">
+                                        <div className="col-md-6">
+                                            <label>Name</label>
+                                        </div>
+                                        <div className="col-md-6">
+                                            <p>{candidateName}</p>
+                                        </div>
+                                    </div>
+                                )}
                                 <div className="row">
                                     <div className="col-md-6">
                                         <label>Email</label>
@@ -119,26 +125,10 @@ const DetailPage = ({ history }) => {
                                 </div>
                                 <div className="row">
                                     <div className="col-md-6">
-                                        <label>Status</label>
+                                        <label>Relevant Experience</label>
                                     </div>
                                     <div className="col-md-6">
-                                        <p>{status}</p>
-                                    </div>
-                                </div>
-                                <div className="row">
-                                    <div className="col-md-6">
-                                        <label>Interview Status</label>
-                                    </div>
-                                    <div className="col-md-6">
-                                        <p>{interviewStatus}</p>
-                                    </div>
-                                </div>
-                                <div className="row">
-                                    <div className="col-md-6">
-                                        <label>Join Status</label>
-                                    </div>
-                                    <div className="col-md-6">
-                                        <p>{joinStatus}</p>
+                                        <p>{relevantExperience}</p>
                                     </div>
                                 </div>
                                 <div className="row">
@@ -157,14 +147,6 @@ const DetailPage = ({ history }) => {
                                     </div>
                                     <div className="col-md-6">
                                         <p>{totalExperience}</p>
-                                    </div>
-                                </div>
-                                <div className="row">
-                                    <div className="col-md-6">
-                                        <label>Relevant Experience</label>
-                                    </div>
-                                    <div className="col-md-6">
-                                        <p>{relevantExperience}</p>
                                     </div>
                                 </div>
                                 <div className="row">
@@ -189,6 +171,30 @@ const DetailPage = ({ history }) => {
                                     </div>
                                     <div className="col-md-6">
                                         <p>{expectedCTC}</p>
+                                    </div>
+                                </div>
+                                <div className="row">
+                                    <div className="col-md-6">
+                                        <label>Status</label>
+                                    </div>
+                                    <div className="col-md-6">
+                                        <p>{status}</p>
+                                    </div>
+                                </div>
+                                <div className="row">
+                                    <div className="col-md-6">
+                                        <label>Interview Process</label>
+                                    </div>
+                                    <div className="col-md-6">
+                                        <p>{interviewProcess}</p>
+                                    </div>
+                                </div>
+                                <div className="row">
+                                    <div className="col-md-6">
+                                        <label>Joining Status</label>
+                                    </div>
+                                    <div className="col-md-6">
+                                        <p>{joinStatus}</p>
                                     </div>
                                 </div>
                                 <div className="row">
