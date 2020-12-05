@@ -22,7 +22,7 @@ app.enable('trust proxy');
 // GLOBAL MIDDLEWARES
 app.use(
     cors({
-        origin: "http://localhost:3001",
+        origin: 'http://localhost:5000',
         credentials: true
     })
 );
@@ -54,9 +54,9 @@ app.use(xss());
 app.use(compression());
 
 // ROUTES
-app.get('/',(req,res)=>{
-    res.send("hello");
-})
+app.get('/', (req, res) => {
+    res.send('hello');
+});
 app.use('/api/v1/candidate', candidateRouter);
 app.use('/api/v1/users', userRouter);
 

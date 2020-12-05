@@ -16,7 +16,7 @@ import ExistingCandidateBox from '../../components/existing-candidate-box/existi
 
 import { skillData } from '../../redux/skills/skills.data';
 
-import { validateEmail } from '../../utils/utitlity';
+import { validateEmail, validateNumber } from '../../utils/utitlity';
 import { getCandidateByEmail, createNewCandidate } from '../../utils/apiCall';
 import { showAlert } from '../../utils/showMessages';
 
@@ -96,10 +96,16 @@ const HomePage = ({ history }) => {
         setCandidateData({ ...candidateData, [name]: value });
     };
 
+    const handleChangeNumber = (e) => {
+        setCandidateData({ ...candidateData, phoneNumber: validateNumber(e.target.value) });
+    };
+
     const handleChange = (e) => {
         setUtils({ isLoading: false, success: null, error: null });
-        const { value, name } = e.target;
-        setCandidateData({ ...candidateData, [name]: value });
+        const { value, name, type } = e.target;
+        let v = value;
+        if (type === 'number') v = v ? Number(value) : '';
+        setCandidateData({ ...candidateData, [name]: v });
     };
 
     const handleSubmit = async (e) => {
@@ -131,7 +137,7 @@ const HomePage = ({ history }) => {
                             <FormInput label="Email" name="email" type="email" value={email} placeholder="ex. charliebrown@mail.com" handleChange={handleChangeEmail} required />
                         </div>
                         <div className="col-md-6 mb-3">
-                            <FormInput label="Phone Number" name="phoneNumber" type="number" value={phoneNumber} placeholder="ex. 5566778890" handleChange={handleChange} required />
+                            <FormInput label="Phone Number" name="phoneNumber" type="number" value={phoneNumber} placeholder="ex. 5566778890" handleChange={handleChangeNumber} required />
                         </div>
                     </div>
                     <div className="row">

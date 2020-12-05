@@ -1,10 +1,10 @@
 const initialState = {
     education: ['UG', 'PG', 'Diploma', 'PHD'],
     noticePeriod: ['1', '2', '3', '4'],
-    status: ['placeholder', 'interested', 'not looking', 'not relevant', 'not available', 'not reachable', 'call back later', 'high np', 'high expectation', 'location issue'],
-    joinStatus: ['placeholder', 'Joining', 'Offer accepted', 'Offer rejected', 'Joined'],
-    interviewStatus: ['placeholder', 'Feedback Pending', 'L1Done', 'L2Done', 'L3Done', 'L4Done', 'L5Done', 'HR done'],
-    changeReason: ['placeholder', 'Better Opportunity', 'Career Change', 'Family Circumstances', 'Fresher', 'Health Reasons', 'Organizational Restructuring']
+    status: ['interested', 'not looking', 'not relevant', 'not available', 'not reachable', 'call back later', 'high np', 'high expectation', 'location issue'],
+    joinStatus: ['Joining', 'Offer accepted', 'Offer rejected', 'Joined'],
+    interviewStatus: ['Feedback Pending', 'L1Done', 'L2Done', 'L3Done', 'L4Done', 'L5Done', 'HR done'],
+    changeReason: ['Better Opportunity', 'Career Change', 'Family Circumstances', 'Fresher', 'Health Reasons', 'Organizational Restructuring']
 };
 
 const candidateListReducer = (state = initialState, { type, payload }) => {

@@ -33,7 +33,7 @@ const ExistingCandidateBox = ({ candidate }) => {
                         <button className="btn btn-sm btn-secondary mr-2" onClick={() => history.push(`/details/${_id}`)}>
                             View
                         </button>
-                        <button className="btn btn-sm btn-info" onClick={() => history.push(`/details/${_id}`)}>
+                        <button className="btn btn-sm btn-info" onClick={() => history.push(`/update/${_id}`)}>
                             Update
                         </button>
                     </>

@@ -12,9 +12,9 @@ import { checkUserSession } from './redux/user/user.actions';
 import { selectCurrentUser } from './redux/user/user.selectors';
 
 import './App.css';
-import candidateSecondFormPage from './pages/candidate-second-form/candidate-second-form.page';
 
 const HomePage = lazy(() => import('./pages/homepage/home.page'));
+const CandidateSecondFormPage = lazy(() => import('./pages/candidate-second-form/candidate-second-form.page'));
 const SignInAndSignUpPage = lazy(() => import('./pages/sign-up-sign-in/sign-up-sign-in.page'));
 const DetailPage = lazy(() => import('./pages/detail/detail.page'));
 const UpdatePage = lazy(() => import('./pages/update/update.page'));
@@ -41,7 +41,7 @@ const App = () => {
                     <Suspense fallback={<Spinner />}>
                         <Route exact path="/" render={() => (currentUser ? <Redirect to="/homepage" /> : <SignInAndSignUpPage />)} />
                         <Route exact path="/homepage" component={HomePage} />
-                        <Route exact path="/complete-candidate-submit" component={candidateSecondFormPage} />
+                        <Route exact path="/complete-candidate-submit" component={CandidateSecondFormPage} />
                         <Route exact path="/details/:id" component={DetailPage} />
                         <Route exact path="/update/:id" component={UpdatePage} />
                         <Route exact path="/resetPassword/" component={ResetPasswordPage} />

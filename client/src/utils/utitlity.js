@@ -3,6 +3,12 @@ export const validateEmail = (email) => {
     return re.test(email);
 };
 
+export const validateNumber = (number) => {
+    let num = number.replace(/\s/g, '');
+    if (num.length > 10) num = num.slice(-10);
+    return parseInt(num);
+};
+
 export const clearFormState = () => {
     const obj = {
         clientName: '',

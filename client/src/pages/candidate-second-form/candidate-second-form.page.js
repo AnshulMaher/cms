@@ -11,13 +11,13 @@ import { showAlert } from '../../utils/showMessages';
 import IsAuthenticated from '../../components/is-authenticated-hoc/is-authenticated-hoc.component';
 import WithCandidate from '../../components/with-candidate-hoc/with-candidate-hoc.component';
 
-const CandidateSecondForm = ({ history, existingCandidate }) => {
+const CandidateSecondFormPage = ({ history, existingCandidate }) => {
     const [candidateData, setCandidateData] = useState({
         dob: '',
-        status: 'placeholder',
-        joinStatus: 'placeholder',
-        changeReason: 'placeholder',
-        interviewProcess: 'placeholder'
+        status: '',
+        joinStatus: '',
+        changeReason: '',
+        interviewProcess: ''
     });
 
     const [utils, setUtils] = useState({ isLoading: false, success: null, error: null });
@@ -93,4 +93,4 @@ const CandidateSecondForm = ({ history, existingCandidate }) => {
     );
 };
 
-export default IsAuthenticated(WithCandidate(CandidateSecondForm));
+export default IsAuthenticated(WithCandidate(CandidateSecondFormPage));
