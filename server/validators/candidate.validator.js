@@ -66,14 +66,8 @@ class Validators {
                         .strict()
                         .required()
                         .error(() => 'REQUIRED RELEVANT EXPERIENCE'),
-                    currentCTC: Joi.number()
-                        .strict()
-                        .required()
-                        .error(() => 'REQUIRED CURRENT CTC'),
-                    expectedCTC: Joi.number()
-                        .strict()
-                        .required()
-                        .error(() => 'REQUIRED EXPECTED CTC'),
+                    currentCTC: Joi.string().trim().required(),
+                    expectedCTC: Joi.string().trim().required(),
                     email: Joi.string()
                         .trim()
                         .email()
@@ -93,40 +87,6 @@ class Validators {
                 next();
             } catch (error) {
                 console.error('error In ====>>>> createCandidateValidator <<<<====', error);
-                return res.status(500).json({ status: 'failed', data: 'SERVER_ERROR' });
-            }
-        };
-    }
-
-    static completeCandidateValidator() {
-        return async (req, res, next) => {
-            try {
-                req.schema = Joi.object().keys({
-                    dob: Joi.string().allow(''),
-                    status: Joi.string()
-                        .trim()
-                        .allow('')
-                        .valid(['', 'interested', 'not looking', 'not relevant', 'not available', 'not reachable', 'call back later', 'high np', 'high expectation', 'location issue'])
-                        .error(() => 'REQUIRED PROPER STATUS'),
-                    joinStatus: Joi.string()
-                        .trim()
-                        .allow('')
-                        .valid(['', 'Joining', 'Offer accepted', 'Offer rejected', 'Joined'])
-                        .error(() => 'REQUIRED PROPER JOIN STATUS'),
-                    changeReason: Joi.string()
-                        .trim()
-                        .allow('')
-                        .valid(['', 'Better Opportunity', 'Career Change', 'Family Circumstances', 'Fresher', 'Health Reasons', 'Organizational Restructuring'])
-                        .error(() => 'REQUIRED PROPER CHANGE REASON'),
-                    interviewProcess: Joi.string()
-                        .trim()
-                        .allow('')
-                        .valid(['', 'Feedback Pending', 'L1Done', 'L2Done', 'L3Done', 'L4Done', 'L5Done', 'HR done'])
-                        .error(() => 'REQUIRED PROPER INTERVIEW PROCESS')
-                });
-                next();
-            } catch (error) {
-                console.error('error In ====>>>> completeCandidateValidator <<<<====', error);
                 return res.status(500).json({ status: 'failed', data: 'SERVER_ERROR' });
             }
         };
@@ -176,14 +136,8 @@ class Validators {
                         .strict()
                         .required()
                         .error(() => 'REQUIRED RELEVANT EXPERIENCE'),
-                    currentCTC: Joi.number()
-                        .strict()
-                        .required()
-                        .error(() => 'REQUIRED CURRENT CTC'),
-                    expectedCTC: Joi.number()
-                        .strict()
-                        .required()
-                        .error(() => 'REQUIRED EXPECTED CTC'),
+                    currentCTC: Joi.string().trim().required(),
+                    expectedCTC: Joi.string().trim().required(),
                     email: Joi.string()
                         .trim()
                         .email()
@@ -231,61 +185,6 @@ class Validators {
     }
 
     /*************************************************************************************
-    @Purpose    :   Function for food provider availability
-    @Parameter  :   {
-        availability    *: [{    Array of objects
-            from        :   Number,
-            until       :   Number,
-            day         :   { type: String, enum: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'] }
-            isAvailable :   { type: Boolean, default: false },
-        }],
-    }
-    @Return     :   JSON String
-    **************************************************************************************/
-    static availabilityValidator() {
-        return async (req, res, next) => {
-            try {
-                req.schema = Joi.object().keys({
-                    availability: Joi.array()
-                        .items(
-                            Joi.object().keys({
-                                isAvailable: Joi.boolean()
-                                    .strict()
-                                    .required()
-                                    .error(() => 'REQUIRED_IS_AVAILABLE'),
-                                day: Joi.string()
-                                    .valid('Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun')
-                                    .required()
-                                    .error(() => 'REQUIRED_PROPER_DAY'),
-                                from: Joi.when('isAvailable', {
-                                    is: true,
-                                    then: Joi.number()
-                                        .strict()
-                                        .required()
-                                        .error(() => 'REQUIRED_FROM_VALUE')
-                                }),
-                                until: Joi.when('isAvailable', {
-                                    is: true,
-                                    then: Joi.number()
-                                        .strict()
-                                        .required()
-                                        .error(() => 'REQUIRED_UNTIL_VALUE')
-                                })
-                            })
-                        )
-                        .required()
-                        .min(7)
-                        .error(() => 'REQUIRED_AVAILABILITY_DETAILS')
-                });
-                next();
-            } catch (error) {
-                console.error('error In ====>>>> availabilityValidator <<<<====', error);
-                return res.send(CS.sendResponse(0, 'SERVER_ERROR'));
-            }
-        };
-    }
-
-    /*************************************************************************************
     @Purpose    :   Function For get id validator
     @Parameter  :
     {
@@ -315,7 +214,7 @@ class Validators {
     static validateBody(req, res, next) {
         try {
             const { error } = Joi.validate(req.body, req.schema);
-            if (error) return res.status(422).json({ status: 'failed', data: error.details[0].message });
+            if (error) return res.status(422).json({ error: true, message: error.details[0].message });
             next();
         } catch (error) {
             console.error('error In ====>>>> validateBody <<<<====', error);

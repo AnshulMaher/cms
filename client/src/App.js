@@ -18,6 +18,7 @@ const CandidateSecondFormPage = lazy(() => import('./pages/candidate-second-form
 const SignInAndSignUpPage = lazy(() => import('./pages/sign-up-sign-in/sign-up-sign-in.page'));
 const DetailPage = lazy(() => import('./pages/detail/detail.page'));
 const UpdatePage = lazy(() => import('./pages/update/update.page'));
+const ForgotPasswordPage = lazy(() => import('./pages/forgot-password/forgot-password.page'));
 const ResetPasswordPage = lazy(() => import('./pages/reset-password/reset-password.page'));
 
 const App = () => {
@@ -27,8 +28,8 @@ const App = () => {
     useEffect(() => {
         const getloggedInUser = async () => {
             const res = await isLoggedIn();
-            if (res.error) return;
-            if (res.data.status === 'success') dispatch(checkUserSession(res.data.data));
+            if (res.error) return dispatch(checkUserSession(null));
+            else if (res.data.status === 'success') dispatch(checkUserSession(res.data.data));
         };
         if (!currentUser) getloggedInUser();
     }, []);
@@ -44,7 +45,8 @@ const App = () => {
                         <Route exact path="/complete-candidate-submit" component={CandidateSecondFormPage} />
                         <Route exact path="/details/:id" component={DetailPage} />
                         <Route exact path="/update/:id" component={UpdatePage} />
-                        <Route exact path="/resetPassword/" component={ResetPasswordPage} />
+                        <Route exact path="/forgotPassword/" component={ForgotPasswordPage} />
+                        <Route exact path="/resetPassword/:resetToken" component={ResetPasswordPage} />
                     </Suspense>
                 </ErrorBoundary>
             </Switch>

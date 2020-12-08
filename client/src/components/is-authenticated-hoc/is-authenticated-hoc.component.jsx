@@ -5,7 +5,11 @@ import { selectCurrentUser } from '../../redux/user/user.selectors';
 const IsAuthenticated = (WrappedComponent) => {
     const IsAuthenticatedComponent = ({ ...otherProps }) => {
         const currentUser = useSelector(selectCurrentUser);
-        return currentUser ? <WrappedComponent currentUser={currentUser} {...otherProps} /> : <h4>Please Sign In to get access to this page</h4>;
+        return currentUser ? (
+            <WrappedComponent currentUser={currentUser} {...otherProps} />
+        ) : (
+            <h1 className="h3 mb-3 font-weight-normal">You are not logged in. Please sign in to access this page.</h1>
+        );
     };
     return IsAuthenticatedComponent;
 };

@@ -8,15 +8,13 @@ const ExistingCandidateBox = ({ candidate }) => {
     const currentUser = useSelector(selectCurrentUser);
     const { _id, candidateName, email } = candidate;
     const data = {
-        ID: _id,
-        candidate_name: candidateName,
+        id: _id,
+        name: candidateName,
         email
     };
     return (
         <div className="col-md-4 order-md-2 mb-4 py-4">
-            <h4 className="d-flex justify-content-between align-items-center mb-3">
-                <span>Candidate Already Exists</span>
-            </h4>
+            <h3 className="h3 mb-3 font-weight-normal">Candidate already exists</h3>
             <ul className="list-group mb-3">
                 {Object.keys(data).map((key, idx) => (
                     <li className="list-group-item d-flex justify-content-between lh-condensed" key={idx}>
@@ -33,7 +31,7 @@ const ExistingCandidateBox = ({ candidate }) => {
                         <button className="btn btn-sm btn-secondary mr-2" onClick={() => history.push(`/details/${_id}`)}>
                             View
                         </button>
-                        <button className="btn btn-sm btn-info" onClick={() => history.push(`/update/${_id}`)}>
+                        <button className="btn btn-sm btn-info mr-2" onClick={() => history.push(`/update/${_id}`)}>
                             Update
                         </button>
                     </>

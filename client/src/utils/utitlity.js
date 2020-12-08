@@ -9,6 +9,11 @@ export const validateNumber = (number) => {
     return parseInt(num);
 };
 
+export const validateCTC = (ctc) => {
+    let pattern = /^[0-9]{1,2}(?:[.]\d{1,2})(lpa|k)$/i;
+    return pattern.test(ctc);
+};
+
 export const clearFormState = () => {
     const obj = {
         clientName: '',

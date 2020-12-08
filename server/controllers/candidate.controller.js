@@ -11,7 +11,6 @@ exports.getOneByEmail = common.getOne(Candidate, 'email');
 
 exports.createOne = catchAsyncError(async (req, res, next) => {
     const data = { ...req.body, recruiter: req.user._id };
-    console.log(data);
     const document = await Candidate.create(data);
     if (!document) return next(new CustomError(404, 'Failed to save!'));
     res.status(201).json({ status: 'success', data: document });

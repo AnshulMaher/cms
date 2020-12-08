@@ -1,15 +1,13 @@
 import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-
-import { updateCandidateSuccess } from '../../redux/candidate/candidate.actions';
-
-import { selectCandidateStatus, selectCandidateInterviewStatus, selectCandidateJoinStatus, selectCandidateChangeReason } from '../../redux/candidateList/candidate.selectors';
-import FormInput from '../../components/form-input/form-input.component';
-import FormSelect from '../../components/form-select/form-select.component';
-import { updateCandidate } from '../../utils/apiCall';
-import { showAlert } from '../../utils/showMessages';
 import IsAuthenticated from '../../components/is-authenticated-hoc/is-authenticated-hoc.component';
 import WithCandidate from '../../components/with-candidate-hoc/with-candidate-hoc.component';
+import FormInput from '../../components/form-input/form-input.component';
+import FormSelect from '../../components/form-select/form-select.component';
+import { showAlert } from '../../utils/showMessages';
+import { updateCandidate } from '../../utils/apiCall';
+import { selectChangeReasonChoices, selectInterviewStatusChoices, selectJoinStatusChoices, selectStatusChoices } from '../../redux/choices/choices.selectors';
+import { updateCandidateSuccess } from '../../redux/candidate/candidate.actions';
 
 const CandidateSecondFormPage = ({ history, existingCandidate }) => {
     const [candidateData, setCandidateData] = useState({
@@ -24,10 +22,10 @@ const CandidateSecondFormPage = ({ history, existingCandidate }) => {
 
     const dispatch = useDispatch();
 
-    const statusOptions = useSelector(selectCandidateStatus);
-    const joinStatusOptions = useSelector(selectCandidateJoinStatus);
-    const interviewStatusOptions = useSelector(selectCandidateInterviewStatus);
-    const changeReasonOptions = useSelector(selectCandidateChangeReason);
+    const statusOptions = useSelector(selectStatusChoices);
+    const joinStatusOptions = useSelector(selectJoinStatusChoices);
+    const interviewStatusOptions = useSelector(selectInterviewStatusChoices);
+    const changeReasonOptions = useSelector(selectChangeReasonChoices);
 
     const { dob, status, joinStatus, changeReason, interviewProcess } = candidateData;
 
@@ -41,16 +39,12 @@ const CandidateSecondFormPage = ({ history, existingCandidate }) => {
         e.preventDefault();
         setUtils({ success: null, error: null, isLoading: true });
         const res = await updateCandidate({ ...existingCandidate, ...candidateData });
-        if (res.error) {
-            setUtils({ isLoading: false, success: null, error: 'Failed to update! Either details filled incorrectly or server error' });
-            return;
-        } else if (res.data.status === 'success') {
+        if (res.error) return setUtils({ isLoading: false, success: null, error: res.message });
+        else if (res.data.status === 'success') {
             const exc = res.data.data;
             dispatch(updateCandidateSuccess(exc));
-            setUtils({ isLoading: false, error: null, success: 'Candidate details successfully updated' });
-            setTimeout(() => {
-                history.push('/');
-            }, 1500);
+            setUtils({ isLoading: false, error: null, success: 'Candidate successfully saved' });
+            setTimeout(() => history.push('/'), 1500);
         }
     };
 
@@ -61,30 +55,28 @@ const CandidateSecondFormPage = ({ history, existingCandidate }) => {
             {utils.success && showAlert('success', utils.success, 5)}
 
             <div className="col-md-8 order-md-1">
-                <h5 className="mb-4">Optional Fields (press save button if you don't want to fill)</h5>
+                <h1 className="h3 mb-3 font-weight-normal">Optional Form ( press save button, if you don't want to fill )</h1>
                 <form className="needs-validation" onSubmit={handleSubmit}>
                     <div className="row">
-                        <div className="col-md-4 mb-3">
+                        <div className="col-md-4">
                             <FormInput label="Birth Date" name="dob" type="date" value={dob} handleChange={handleChange} />
                         </div>
-                        <div className="col-md-4 mb-3">
+                        <div className="col-md-4">
                             <FormSelect label="Candidate Feedback" name="status" values={statusOptions} selectedValue={status} handleChange={handleChange} />
                         </div>
-                        <div className="col-md-4 mb-3">
+                        <div className="col-md-4">
                             <FormSelect label="Join Status" name="joinStatus" values={joinStatusOptions} selectedValue={joinStatus} handleChange={handleChange} />
                         </div>
                     </div>
-                    <hr className="mb-4" />
                     <div className="row mt-3">
-                        <div className="col-md-4 mb-3">
+                        <div className="col-md-4">
                             <FormSelect label="Interview Process" name="interviewProcess" values={interviewStatusOptions} selectedValue={interviewProcess} handleChange={handleChange} />
                         </div>
-                        <div className="col-md-4 mb-3">
+                        <div className="col-md-4">
                             <FormSelect label="Reason For Change" name="joinStatus" values={changeReasonOptions} selectedValue={changeReason} handleChange={handleChange} />
                         </div>
                     </div>
-                    <hr className="mb-4" />
-                    <button className="btn btn-primary btn-lg btn-block" type="submit">
+                    <button className="btn btn-primary btn-lg btn-block mt-3" type="submit">
                         Save Candidate Details
                     </button>
                 </form>

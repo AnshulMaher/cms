@@ -53,11 +53,11 @@ const CandidateSchema = new mongoose.Schema({
         require: [true, 'REQUIRED STATE']
     },
     currentCTC: {
-        type: Number,
+        type: String,
         require: [true, 'REQUIRED CURRENT CTC']
     },
     expectedCTC: {
-        type: Number,
+        type: String,
         require: [true, 'REQUIRED EXPECTED CTC']
     },
     noticePeriod: {

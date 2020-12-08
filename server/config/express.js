@@ -22,7 +22,7 @@ app.enable('trust proxy');
 // GLOBAL MIDDLEWARES
 app.use(
     cors({
-        origin: 'http://localhost:5000',
+        origin: 'http://192.168.43.20:90',
         credentials: true
     })
 );

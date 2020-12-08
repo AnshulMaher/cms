@@ -1,0 +1,19 @@
+(node:6552) [DEP0005] DeprecationWarning: Buffer() is deprecated due to security and usability issues. Please use the Buffer.alloc(), Buffer.allocUnsafe(), or Buffer.from() methods instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+RangeError [ERR_HTTP_INVALID_STATUS_CODE]: Invalid status code: Can't find /api/api/v1/users/isLoggedIn on this server!
+    at ServerResponse.writeHead (_http_server.js:255:11)
+    at ServerResponse.writeHead (C:\Users\Anshul Maher\Desktop\test1\server\node_modules\on-headers\index.js:44:26)
+    at ServerResponse._implicitHeader (_http_server.js:246:8)
+    at ServerResponse.end (C:\Users\Anshul Maher\Desktop\test1\server\node_modules\compression\index.js:103:14)
+    at ServerResponse.send (C:\Users\Anshul Maher\Desktop\test1\server\node_modules\express\lib\response.js:221:10)
+    at ServerResponse.json (C:\Users\Anshul Maher\Desktop\test1\server\node_modules\express\lib\response.js:267:15)
+    at sendError (C:\Users\Anshul Maher\Desktop\test1\server\utils\globalErrorHandler.js:2:39)
+    at globalErrorHandler (C:\Users\Anshul Maher\Desktop\test1\server\utils\globalErrorHandler.js:12:5)
+    at Layer.handle_error (C:\Users\Anshul Maher\Desktop\test1\server\node_modules\express\lib\router\layer.js:71:5)
+    at trim_prefix (C:\Users\Anshul Maher\Desktop\test1\server\node_modules\express\lib\router\index.js:315:13)
+    at C:\Users\Anshul Maher\Desktop\test1\server\node_modules\express\lib\router\index.js:284:7
+    at Function.process_params (C:\Users\Anshul Maher\Desktop\test1\server\node_modules\express\lib\router\index.js:335:12)
+    at next (C:\Users\Anshul Maher\Desktop\test1\server\node_modules\express\lib\router\index.js:275:10)
+    at C:\Users\Anshul Maher\Desktop\test1\server\config\express.js:64:5
+    at Layer.handle [as handle_request] (C:\Users\Anshul Maher\Desktop\test1\server\node_modules\express\lib\router\layer.js:95:5)
+    at trim_prefix (C:\Users\Anshul Maher\Desktop\test1\server\node_modules\express\lib\router\index.js:317:13)

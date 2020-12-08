@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
+import { Link } from 'react-router-dom';
 import { signIn } from '../../utils/apiCall';
 import { signInSuccess } from '../../redux/user/user.actions';
 import { showAlert } from '../../utils/showMessages';
-
-import './sign-in.styles.css';
+import FormInput from '../form-input/form-input.component';
 
 const SignIn = () => {
     const [userCredentials, setUserCredentials] = useState({
@@ -28,7 +28,7 @@ const SignIn = () => {
         setUtils({ success: null, error: null, isLoading: true });
         const res = await signIn(userCredentials);
         if (res.error) {
-            setUtils({ isLoading: false, success: null, error: 'Failed to log in! Either credentials are wrong or server error' });
+            setUtils({ isLoading: false, success: null, error: res.message });
             return;
         }
         if (res.data.status === 'success') {
@@ -38,21 +38,24 @@ const SignIn = () => {
     };
 
     return (
-        <form className="form-signin" onSubmit={handleSubmit}>
-            {utils.isLoading && showAlert('info', 'Loading....', 3)}
+        <form style={{ width: '100%', maxWidth: '330px', padding: '15px', margin: '0 auto' }} onSubmit={handleSubmit}>
+            {utils.isLoading && showAlert('info', 'Loading....', 2)}
             {utils.error && showAlert('danger', utils.error, 5)}
             {utils.success && showAlert('success', utils.success, 5)}
-            <h3 className="display-5">Sign In</h3>
-            <div className="form-group">
-                <label htmlFor="exampleInputEmail1">Email address</label>
-                <input type="email" className="form-control" name="email" onChange={handleChange} value={email} id="exampleInputEmail1" aria-describedby="emailHelp" required />
+            <h3 className="h3 mb-3 font-weight-normal">Sign In Form</h3>
+            <div className="form-group mb-0">
+                <FormInput label="Email Address" type="email" className="form-control" name="email" handleChange={handleChange} value={email} required />
             </div>
-            <div className="form-group">
-                <label htmlFor="exampleInputPassword1">Password</label>
-                <input type="password" className="form-control" name="password" onChange={handleChange} value={password} id="exampleInputPassword1" required />
+            <div className="form-group mb-0">
+                <FormInput label="Password" type="password" className="form-control" name="password" handleChange={handleChange} value={password} required />
             </div>
-            <button type="submit" className="btn btn-primary">
+            <button type="submit" className="btn btn-sm btn-primary">
                 Sign In
+            </button>
+            <button className="btn btn-sm btn-warning">
+                <Link to="/forgotPassword" className="text-white">
+                    Forgot Password
+                </Link>
             </button>
         </form>
     );

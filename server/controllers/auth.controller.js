@@ -5,7 +5,7 @@ const jwt = require('jsonwebtoken');
 const User = require('../models/user.model');
 const catchAsyncError = require('../utils/catchAsyncError');
 const CustomError = require('../utils/customError');
-// const Email = require('./../utils/email');
+const Email = require('../utils/email');
 
 const signToken = (id) => {
     return jwt.sign({ id: id }, process.env.JWT_SECRET, {
@@ -33,8 +33,8 @@ exports.signup = catchAsyncError(async (req, res, next) => {
         passwordConfirm: req.body.passwordConfirm
     });
 
-    // const url = `${req.protocol}://${req.get('host')}/me`;
-    // await new Email(newUser, url).sendWelcome();
+    const url = `${req.protocol}://${req.get('host')}/`;
+    await new Email(newUser, url).sendWelcome();
 
     createAndSendToken(newUser, 201, req, res);
 });
@@ -140,8 +140,8 @@ exports.forgotPassword = catchAsyncError(async (req, res, next) => {
     const u = await user.save({ validateBeforeSave: false });
     // 3) Send it to the user's email
     try {
-        // const resetURL = `${req.protocol}://${req.get('host')}/api/v1/users/resetPassword/${resetToken}`;
-        // await new Email(user, resetURL).sendPasswordReset();
+        const resetURL = `${req.headers.referer}resetPassword/${resetToken}`;
+        await new Email(user, resetURL).sendPasswordReset();
 
         res.status(200).json({
             status: 'success',

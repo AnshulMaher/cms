@@ -9,10 +9,10 @@ const WithCandidate = (WrappedComponent) => {
             otherProps.currentUser._id === existingCandidate.recruiter ? (
                 <WrappedComponent existingCandidate={existingCandidate} {...otherProps} />
             ) : (
-                <h4>This candidate is not submitted by you</h4>
+                <h1 className="h3 mb-3 font-weight-normal">This candidate is not submitted by you.</h1>
             )
         ) : (
-            <h4>Cannot access this candidate. Search for the candidate first</h4>
+            <h1 className="h3 mb-3 font-weight-normal">You cannot load page this way. Search for the candidate first.</h1>
         );
     };
     return WithCandidateComponent;
