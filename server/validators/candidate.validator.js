@@ -1,28 +1,5 @@
 const Joi = require('joi');
-const commonlyUsedPasswords = {
-    passwords: [
-        '123456',
-        '123456789',
-        'qwerty',
-        'password',
-        '1111111',
-        '12345678',
-        'abc123',
-        '1234567',
-        'password1',
-        '12345',
-        '1234567890',
-        '123123',
-        '0',
-        'Iloveyou',
-        '1234',
-        '1q2w3e4r5t',
-        'Qwertyuiop',
-        '123',
-        'Monkey',
-        'Dragon'
-    ]
-};
+
 class Validators {
     static createCandidateValidator() {
         return async (req, res, next) => {
@@ -154,7 +131,7 @@ class Validators {
                         .required()
                         .error(() => 'REQUIRED PHONE NUMBER'),
                     date: Joi.string().allow(''),
-                    dob: Joi.string().allow(''),
+                    birthDate: Joi.string().allow(''),
                     status: Joi.string()
                         .trim()
                         .allow('')
@@ -184,33 +161,6 @@ class Validators {
         };
     }
 
-    /*************************************************************************************
-    @Purpose    :   Function For get id validator
-    @Parameter  :
-    {
-        _id     *:  ObjectId
-    }
-    @Return     :   JSON String
-    **************************************************************************************/
-    static getIdValidator() {
-        return async (req, res, next) => {
-            try {
-                req.schema = Joi.object().keys({
-                    _id: Joi.objectId()
-                        .required()
-                        .error(() => 'REQUIRED_ID')
-                });
-                next();
-            } catch (error) {
-                console.error('error In ====>>>> getIdValidator <<<<====', error);
-                return res.send(CS.sendResponse(0, 'SERVER_ERROR'));
-            }
-        };
-    }
-
-    /*************************************************************************************
-                V A L I D A T E - B O D Y
-**************************************************************************************/
     static validateBody(req, res, next) {
         try {
             const { error } = Joi.validate(req.body, req.schema);
@@ -221,21 +171,6 @@ class Validators {
             return res.status(500).json({ status: 'failed', data: 'SERVER_ERROR' });
         }
     }
-
-    /*************************************************************************************
-                V A L I D A T E - P A R M S
-**************************************************************************************/
-    static validateParams(req, res, next) {
-        try {
-            const { error } = Joi.validate(req.params, req.schema);
-            if (error) return res.status(422).json(CS.sendResponse(0, error.details[0].message));
-            next();
-        } catch (error) {
-            console.error('error In ====>>>> validateParams <<<<====', error);
-            return res.send({ status: 0, message: error });
-        }
-    }
-    // End
 }
 
 module.exports = Validators;

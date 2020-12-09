@@ -8,7 +8,7 @@ import { skillData } from '../../redux/skills/skills.data';
 import { updateCandidate } from '../../utils/apiCall';
 import { showAlert } from '../../utils/showMessages';
 import WithCandidate from '../../components/with-candidate-hoc/with-candidate-hoc.component';
-import { validateNumber } from '../../utils/utitlity';
+import { formatDate, validateNumber } from '../../utils/utitlity';
 import { selectCandidate } from '../../redux/candidate/candidate.selectors';
 import {
     selectEducationChoices,
@@ -41,7 +41,7 @@ const UpdatePage = ({ history }) => {
         noticePeriod: '',
         status: '',
         joinStatus: '',
-        dob: '',
+        birthDate: '',
         changeReason: '',
         interviewProcess: ''
     });
@@ -77,19 +77,15 @@ const UpdatePage = ({ history }) => {
         noticePeriod,
         status,
         joinStatus,
-        dob,
+        birthDate,
         changeReason,
         interviewProcess
     } = candidateData;
 
     useEffect(() => {
-        init();
-    }, []);
-
-    const init = () => {
-        const data = { ...existingCandidate };
-        setCandidateData(data);
-    };
+        setCandidateData(existingCandidate);
+        window.scrollTo(0, 0);
+    }, [existingCandidate]);
 
     const handleChangeSkill = (skills) => {
         setUtils({ isLoading: false, success: null, error: null });
@@ -115,7 +111,7 @@ const UpdatePage = ({ history }) => {
             const exc = res.data.data;
             dispatch(updateCandidateSuccess(exc));
             setUtils({ isLoading: false, error: null, success: 'Candidate details successfully updated' });
-            setTimeout(() => history.push(`/details/${existingCandidate._id}`), 1500);
+            setTimeout(() => history.push(`/details/${existingCandidate._id}`), 1000);
         }
     };
 
@@ -218,7 +214,15 @@ const UpdatePage = ({ history }) => {
                     <h4 className="mb-2">Optional Fields</h4>
                     <div className="row">
                         <div className="col-md-4">
-                            <FormInput label="Birth Date" name="dob" type="date" value={dob} handleChange={handleChange} />
+                            <FormInput
+                                label="Birth Date"
+                                name="birthDate"
+                                type="date"
+                                min={formatDate(new Date(new Date().setFullYear(new Date().getFullYear() - 80)))}
+                                max={formatDate(new Date(new Date().setFullYear(new Date().getFullYear() - 16)))}
+                                value={formatDate(birthDate)}
+                                handleChange={handleChange}
+                            />
                         </div>
                         <div className="col-md-4">
                             <FormSelect label="Candidate Feedback" name="status" values={statusOptions} selectedValue={status} handleChange={handleChange} />

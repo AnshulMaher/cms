@@ -11,7 +11,7 @@ import { updateCandidateSuccess } from '../../redux/candidate/candidate.actions'
 
 const CandidateSecondFormPage = ({ history, existingCandidate }) => {
     const [candidateData, setCandidateData] = useState({
-        dob: '',
+        birthDate: '',
         status: '',
         joinStatus: '',
         changeReason: '',
@@ -27,7 +27,7 @@ const CandidateSecondFormPage = ({ history, existingCandidate }) => {
     const interviewStatusOptions = useSelector(selectInterviewStatusChoices);
     const changeReasonOptions = useSelector(selectChangeReasonChoices);
 
-    const { dob, status, joinStatus, changeReason, interviewProcess } = candidateData;
+    const { birthDate, status, joinStatus, changeReason, interviewProcess } = candidateData;
 
     const handleChange = (e) => {
         setUtils({ success: null, error: null, isLoading: false });
@@ -44,7 +44,7 @@ const CandidateSecondFormPage = ({ history, existingCandidate }) => {
             const exc = res.data.data;
             dispatch(updateCandidateSuccess(exc));
             setUtils({ isLoading: false, error: null, success: 'Candidate successfully saved' });
-            setTimeout(() => history.push('/'), 1500);
+            setTimeout(() => history.push('/'), 1000);
         }
     };
 
@@ -59,7 +59,7 @@ const CandidateSecondFormPage = ({ history, existingCandidate }) => {
                 <form className="needs-validation" onSubmit={handleSubmit}>
                     <div className="row">
                         <div className="col-md-4">
-                            <FormInput label="Birth Date" name="dob" type="date" value={dob} handleChange={handleChange} />
+                            <FormInput label="Birth Date" name="birthDate" type="date" value={birthDate} handleChange={handleChange} />
                         </div>
                         <div className="col-md-4">
                             <FormSelect label="Candidate Feedback" name="status" values={statusOptions} selectedValue={status} handleChange={handleChange} />

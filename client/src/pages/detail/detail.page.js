@@ -1,4 +1,5 @@
 import moment from 'moment';
+import { useEffect } from 'react';
 import IsAuthenticated from '../../components/is-authenticated-hoc/is-authenticated-hoc.component';
 import WithCandidate from '../../components/with-candidate-hoc/with-candidate-hoc.component';
 
@@ -21,12 +22,16 @@ const DetailPage = ({ history, existingCandidate }) => {
         expectedCTC,
         noticePeriod,
         date,
-        dob,
+        birthDate,
         status,
         joinStatus,
         changeReason,
         interviewProcess
     } = existingCandidate;
+
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    }, []);
 
     return (
         <div className="emp-profile">
@@ -89,13 +94,13 @@ const DetailPage = ({ history, existingCandidate }) => {
                                         <p>{candidateName}</p>
                                     </div>
                                 </div>
-                                {dob && (
+                                {birthDate && (
                                     <div className="row">
                                         <div className="col-md-6">
-                                            <label>Name</label>
+                                            <label>Birth Date</label>
                                         </div>
                                         <div className="col-md-6">
-                                            <p>{candidateName}</p>
+                                            <p>{moment(birthDate).format('DD-MM-YYYY')}</p>
                                         </div>
                                     </div>
                                 )}

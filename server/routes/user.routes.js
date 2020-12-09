@@ -1,24 +1,24 @@
 const express = require('express');
-
+const Validator = require('../validators/user.validator');
 const router = express.Router();
 
-const { signup, login, logout, protect, isLoggedIn,restrictTo, updatePassword, forgotPassword, resetPassword } = require('../controllers/auth.controller');
+const { signup, login, logout, protect, isLoggedIn, restrictTo, updatePassword, forgotPassword, resetPassword } = require('../controllers/auth.controller');
 
 const { getAllUsers, createUser, getUser, getMe, uploadUserPhoto, resizeUserPhoto, updateMe, updateUser, deleteMe, deleteUser } = require('../controllers/user.controller');
 
-router.post('/signup', signup);
+router.post('/signup', Validator.signUpValidator(), Validator.validateBody, signup);
 
-router.post('/login', login);
+router.post('/login', Validator.signInValidator(), Validator.validateBody, login);
 
 router.get('/logout', logout);
 
-router.post('/forgotPassword', forgotPassword);
+router.post('/forgotPassword', Validator.emailValidator(), Validator.validateBody, forgotPassword);
 
-router.patch('/resetPassword/:token', resetPassword);
+router.patch('/resetPassword/:token', Validator.passwordsValidator(), Validator.validateBody, resetPassword);
 
 // Put protect middleware in below routes or use router.use(protect) in this line
 // all below routes will be protected
-router.get('/isLoggedIn',isLoggedIn);
+router.get('/isLoggedIn', isLoggedIn);
 router.use(protect);
 
 router.get('/me', getMe, getUser);

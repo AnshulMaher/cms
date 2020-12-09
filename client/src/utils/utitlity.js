@@ -10,8 +10,18 @@ export const validateNumber = (number) => {
 };
 
 export const validateCTC = (ctc) => {
-    let pattern = /^[0-9]{1,2}(?:[.]\d{1,2})(lpa|k)$/i;
+    let pattern = /^[0-9]{1,2}?(\.[0-9][0-9]?)?(lpa|k)$/i;
     return pattern.test(ctc);
+};
+
+export const formatDate = (date) => {
+    if (!date) return '';
+    const d = new Date(date);
+    let mm = d.getMonth() + 1;
+    let dd = d.getDate();
+    mm = mm < 10 ? `0${mm}` : mm;
+    dd = dd < 10 ? `0${dd}` : dd;
+    return `${d.getFullYear()}-${mm}-${dd}`;
 };
 
 export const clearFormState = () => {
