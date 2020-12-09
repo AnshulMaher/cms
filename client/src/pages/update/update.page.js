@@ -1,25 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import TextInput from 'react-autocomplete-input';
-import IsAuthenticated from '../../components/is-authenticated-hoc/is-authenticated-hoc.component';
 import FormInput from '../../components/form-input/form-input.component';
 import FormSelect from '../../components/form-select/form-select.component';
 import { skillData } from '../../redux/skills/skills.data';
 import { updateCandidate } from '../../utils/apiCall';
 import { showAlert } from '../../utils/showMessages';
-import WithCandidate from '../../components/with-candidate-hoc/with-candidate-hoc.component';
 import { formatDate, validateNumber } from '../../utils/utitlity';
 import { selectCandidate } from '../../redux/candidate/candidate.selectors';
-import {
-    selectEducationChoices,
-    selectNoticePeriodChoices,
-    selectStateChoices,
-    selectChangeReasonChoices,
-    selectInterviewStatusChoices,
-    selectJoinStatusChoices,
-    selectStatusChoices,
-    selectClientChoices
-} from '../../redux/choices/choices.selectors';
+import { selectEducationChoices, selectNoticePeriodChoices, selectStateChoices, selectChangeReasonChoices, selectInterviewStatusChoices, selectJoinStatusChoices, selectStatusChoices, selectClientChoices } from '../../redux/choices/choices.selectors';
 import { updateCandidateSuccess } from '../../redux/candidate/candidate.actions';
 import 'react-autocomplete-input/dist/bundle.css';
 
@@ -139,15 +128,7 @@ const UpdatePage = ({ history }) => {
                             <FormInput label="Candidate Name" name="candidateName" type="text" value={candidateName} placeholder="ex. Charlie Brown" handleChange={handleChange} required />
                         </div>
                         <div className="col-md-6">
-                            <FormInput
-                                label="Current Designation"
-                                name="currentDesignation"
-                                type="text"
-                                value={currentDesignation}
-                                placeholder="ex. Node.js Developer"
-                                handleChange={handleChange}
-                                required
-                            />
+                            <FormInput label="Current Designation" name="currentDesignation" type="text" value={currentDesignation} placeholder="ex. Node.js Developer" handleChange={handleChange} required />
                         </div>
                     </div>
                     <div className="row">
@@ -168,30 +149,10 @@ const UpdatePage = ({ history }) => {
                             <FormSelect label="Education" name="education" values={educationOptions} selectedValue={education} handleChange={handleChange} required />
                         </div>
                         <div className="col-md-4">
-                            <FormInput
-                                label="Total Experience"
-                                name="totalExperience"
-                                min={0}
-                                max={30}
-                                type="number"
-                                value={totalExperience}
-                                placeholder="ex. 3"
-                                handleChange={handleChange}
-                                required
-                            />
+                            <FormInput label="Total Experience" name="totalExperience" min={0} max={30} type="number" value={totalExperience} placeholder="ex. 3" handleChange={handleChange} required />
                         </div>
                         <div className="col-md-4">
-                            <FormInput
-                                label="Relevant Experience"
-                                name="relevantExperience"
-                                min={0}
-                                max={30}
-                                type="number"
-                                value={relevantExperience}
-                                placeholder="ex. 2"
-                                handleChange={handleChange}
-                                required
-                            />
+                            <FormInput label="Relevant Experience" name="relevantExperience" min={0} max={30} type="number" value={relevantExperience} placeholder="ex. 2" handleChange={handleChange} required />
                         </div>
                     </div>
                     <div className="row">
@@ -252,4 +213,4 @@ const UpdatePage = ({ history }) => {
     );
 };
 
-export default IsAuthenticated(WithCandidate(UpdatePage));
+export default UpdatePage;

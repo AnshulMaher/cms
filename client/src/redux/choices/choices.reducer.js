@@ -1,7 +1,6 @@
 import ChoicesActionTypes from './choices.types';
 
 const initialState = {
-    isFetching: false,
     clients: [],
     education: ['UG', 'PG', 'Diploma', 'PHD'],
     noticePeriod: ['1', '2', '3', '4'],
@@ -52,12 +51,9 @@ const initialState = {
 
 const choicesReducer = (state = initialState, { type, payload }) => {
     switch (type) {
-        case ChoicesActionTypes.FETCH_CLIENTS_START:
-            return { ...state, isFetching: true };
         case ChoicesActionTypes.FETCH_CLIENTS_SUCCESS:
             return {
                 ...state,
-                isFetching: false,
                 clients: Object.values(payload)
                     .map((v) => v.name)
                     .sort()

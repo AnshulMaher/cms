@@ -3,9 +3,9 @@ import React from 'react';
 import './spinner.styles.css';
 
 const Spinner = () => (
-  <div className="spinnerOverlay">
-    <div className="SpinnerContainer" />
-  </div>
+    <div className="spinnerOverlay">
+        <div className="spinnerContainer" />
+    </div>
 );
 
 export default Spinner;

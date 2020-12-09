@@ -108,7 +108,7 @@ exports.isLoggedIn = catchAsyncError(async (req, res, next) => {
         // There is a logged in user
         return res.status(200).json({ status: 'success', data: freshUser });
     }
-    return next(new CustomError(401, 'You are not logged in! Please log in to get access'));
+    return res.status(200).json({ status: 'failed', data: null, message: 'You are not logged in! Please log in to get access' });
 });
 
 exports.logout = (req, res) => {

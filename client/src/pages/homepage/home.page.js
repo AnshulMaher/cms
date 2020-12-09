@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import TextInput from 'react-autocomplete-input';
 import { selectCandidate } from '../../redux/candidate/candidate.selectors';
-import IsAuthenticated from '../../components/is-authenticated-hoc/is-authenticated-hoc.component';
 import FormInput from '../../components/form-input/form-input.component';
 import FormSelect from '../../components/form-select/form-select.component';
 import ExistingCandidateBox from '../../components/existing-candidate-box/existing-candidate-box.component';
@@ -42,23 +41,7 @@ const HomePage = ({ history }) => {
     const educationOptions = useSelector(selectEducationChoices);
     const stateOptions = useSelector(selectStateChoices);
     const noticePeriodOptions = useSelector(selectNoticePeriodChoices);
-    const {
-        clientName,
-        currentDesignation,
-        candidateName,
-        education,
-        skills,
-        currentCompany,
-        totalExperience,
-        relevantExperience,
-        phoneNumber,
-        email,
-        city,
-        state,
-        currentCTC,
-        expectedCTC,
-        noticePeriod
-    } = candidateData;
+    const { clientName, currentDesignation, candidateName, education, skills, currentCompany, totalExperience, relevantExperience, phoneNumber, email, city, state, currentCTC, expectedCTC, noticePeriod } = candidateData;
 
     useEffect(() => {
         dispatch(removeCandidate());
@@ -76,12 +59,13 @@ const HomePage = ({ history }) => {
         if (validateEmail(value)) {
             setTimeout(async () => {
                 const res = await getCandidateByEmail(value);
-                if (res.error) return dispatch(fetchCandidateSuccess(null));
-                if (res.data.status === 'success') {
+                let exc = null;
+                if (res.error) return dispatch(fetchCandidateSuccess(exc));
+                else if (res.data.status === 'success') {
                     setUtils({ ...utils, foundMail: true });
-                    const exc = res.data.data;
-                    dispatch(fetchCandidateSuccess(exc));
+                    exc = res.data.data;
                 }
+                return dispatch(fetchCandidateSuccess(exc));
             }, 1000);
         }
         setCandidateData({ ...candidateData, email: value });
@@ -131,15 +115,7 @@ const HomePage = ({ history }) => {
                             <FormInput label="Candidate Name" name="candidateName" type="text" value={candidateName} placeholder="ex. Charlie Brown" handleChange={handleChange} required />
                         </div>
                         <div className="col-md-6">
-                            <FormInput
-                                label="Current Designation"
-                                name="currentDesignation"
-                                type="text"
-                                value={currentDesignation}
-                                placeholder="ex. Node.js Developer"
-                                handleChange={handleChange}
-                                required
-                            />
+                            <FormInput label="Current Designation" name="currentDesignation" type="text" value={currentDesignation} placeholder="ex. Node.js Developer" handleChange={handleChange} required />
                         </div>
                     </div>
                     <div className="row">
@@ -161,30 +137,10 @@ const HomePage = ({ history }) => {
                             <FormSelect label="Education" name="education" values={educationOptions} selectedValue={education} handleChange={handleChange} required />
                         </div>
                         <div className="col-md-4 ">
-                            <FormInput
-                                label="Total Experience"
-                                name="totalExperience"
-                                type="number"
-                                min={0}
-                                max={30}
-                                value={totalExperience}
-                                placeholder="ex. 3"
-                                handleChange={handleChange}
-                                required
-                            />
+                            <FormInput label="Total Experience" name="totalExperience" type="number" min={0} max={30} value={totalExperience} placeholder="ex. 3" handleChange={handleChange} required />
                         </div>
                         <div className="col-md-4 ">
-                            <FormInput
-                                label="Relevant Experience"
-                                name="relevantExperience"
-                                type="number"
-                                min={0}
-                                max={30}
-                                value={relevantExperience}
-                                placeholder="ex. 2"
-                                handleChange={handleChange}
-                                required
-                            />
+                            <FormInput label="Relevant Experience" name="relevantExperience" type="number" min={0} max={30} value={relevantExperience} placeholder="ex. 2" handleChange={handleChange} required />
                         </div>
                     </div>
 
@@ -217,4 +173,4 @@ const HomePage = ({ history }) => {
     );
 };
 
-export default IsAuthenticated(HomePage);
+export default HomePage;

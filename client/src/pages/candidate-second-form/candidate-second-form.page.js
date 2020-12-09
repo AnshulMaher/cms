@@ -8,6 +8,7 @@ import { showAlert } from '../../utils/showMessages';
 import { updateCandidate } from '../../utils/apiCall';
 import { selectChangeReasonChoices, selectInterviewStatusChoices, selectJoinStatusChoices, selectStatusChoices } from '../../redux/choices/choices.selectors';
 import { updateCandidateSuccess } from '../../redux/candidate/candidate.actions';
+import { formatDate } from '../../utils/utitlity';
 
 const CandidateSecondFormPage = ({ history, existingCandidate }) => {
     const [candidateData, setCandidateData] = useState({
@@ -59,7 +60,15 @@ const CandidateSecondFormPage = ({ history, existingCandidate }) => {
                 <form className="needs-validation" onSubmit={handleSubmit}>
                     <div className="row">
                         <div className="col-md-4">
-                            <FormInput label="Birth Date" name="birthDate" type="date" value={birthDate} handleChange={handleChange} />
+                            <FormInput
+                                label="Birth Date"
+                                name="birthDate"
+                                type="date"
+                                min={formatDate(new Date(new Date().setFullYear(new Date().getFullYear() - 80)))}
+                                max={formatDate(new Date(new Date().setFullYear(new Date().getFullYear() - 16)))}
+                                value={formatDate(birthDate)}
+                                handleChange={handleChange}
+                            />
                         </div>
                         <div className="col-md-4">
                             <FormSelect label="Candidate Feedback" name="status" values={statusOptions} selectedValue={status} handleChange={handleChange} />
