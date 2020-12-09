@@ -6,10 +6,12 @@ import Header from './components/header/header.component';
 import Spinner from './components/spinner/spinner.component';
 import ErrorBoundary from './components/error-boundary/error-boundary.component';
 
-import { isLoggedIn } from './utils/apiCall';
+import { getClients, isLoggedIn } from './utils/apiCall';
 
 import { checkUserSession } from './redux/user/user.actions';
 import { selectCurrentUser } from './redux/user/user.selectors';
+import { selectIsClientFetching } from './redux/choices/choices.selectors';
+import { fetchClientsSuccess } from './redux/choices/choices.actions';
 
 import './App.css';
 
@@ -23,6 +25,7 @@ const ResetPasswordPage = lazy(() => import('./pages/reset-password/reset-passwo
 
 const App = () => {
     const currentUser = useSelector(selectCurrentUser);
+    const isClientFetching = useSelector(selectIsClientFetching);
     const dispatch = useDispatch();
 
     useEffect(() => {
@@ -31,8 +34,14 @@ const App = () => {
             if (res.error) return dispatch(checkUserSession(null));
             else if (res.data.status === 'success') dispatch(checkUserSession(res.data.data));
         };
+        const fetchClients = async () => {
+            const res = await getClients();
+            if (res.error) return;
+            else if (res.data.status === 'success') dispatch(fetchClientsSuccess(res.data.data));
+        };
         if (!currentUser) getloggedInUser();
-    }, []);
+        if (!isClientFetching) fetchClients();
+    }, [currentUser, isClientFetching]);
 
     return (
         <div className="App container py-4">
@@ -41,10 +50,10 @@ const App = () => {
                 <ErrorBoundary>
                     <Suspense fallback={<Spinner />}>
                         <Route exact path="/" render={() => (currentUser ? <Redirect to="/homepage" /> : <SignInAndSignUpPage />)} />
-                        <Route exact path="/homepage" component={HomePage} />
+                        <Route exact path="/homepage" render={({ history }) => (isClientFetching ? <Spinner /> : <HomePage history={history} />)} />
                         <Route exact path="/complete-candidate-submit" component={CandidateSecondFormPage} />
                         <Route exact path="/details/:id" component={DetailPage} />
-                        <Route exact path="/update/:id" component={UpdatePage} />
+                        <Route exact path="/update/:id" component={({ history }) => (isClientFetching ? <Spinner /> : <UpdatePage history={history} />)} />
                         <Route exact path="/forgotPassword/" component={ForgotPasswordPage} />
                         <Route exact path="/resetPassword/:resetToken" component={ResetPasswordPage} />
                     </Suspense>

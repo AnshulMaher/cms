@@ -10,7 +10,7 @@ import { skillData } from '../../redux/skills/skills.data';
 import { validateEmail, validateNumber } from '../../utils/utitlity';
 import { getCandidateByEmail, createNewCandidate } from '../../utils/apiCall';
 import { showAlert } from '../../utils/showMessages';
-import { selectEducationChoices, selectNoticePeriodChoices, selectStateChoices } from '../../redux/choices/choices.selectors';
+import { selectClientChoices, selectEducationChoices, selectNoticePeriodChoices, selectStateChoices } from '../../redux/choices/choices.selectors';
 import { fetchCandidateSuccess, createCandidateSuccess, removeCandidate } from '../../redux/candidate/candidate.actions';
 import 'react-autocomplete-input/dist/bundle.css';
 
@@ -38,10 +38,10 @@ const HomePage = ({ history }) => {
     const dispatch = useDispatch();
 
     const existingCandidate = useSelector(selectCandidate);
+    const clientOptions = useSelector(selectClientChoices);
     const educationOptions = useSelector(selectEducationChoices);
     const stateOptions = useSelector(selectStateChoices);
     const noticePeriodOptions = useSelector(selectNoticePeriodChoices);
-
     const {
         clientName,
         currentDesignation,
@@ -147,7 +147,8 @@ const HomePage = ({ history }) => {
                             <FormInput label="Current Company" name="currentCompany" type="text" value={currentCompany} placeholder="ex. xyz ltd." handleChange={handleChange} required />
                         </div>
                         <div className="col-md-4 ">
-                            <FormInput label="Client Name" name="clientName" type="text" value={clientName} placeholder="ex. abc inc." handleChange={handleChange} required />
+                            <FormSelect label="Client" name="clientName" values={clientOptions} selectedValue={clientName} handleChange={handleChange} required />
+                            {/* <FormInput label="Client Name" name="clientName" type="text" value={clientName} placeholder="ex. abc inc." handleChange={handleChange} required /> */}
                         </div>
                     </div>
 

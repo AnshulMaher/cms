@@ -4,6 +4,9 @@ axios.defaults.withCredentials = true;
 
 const API = `/api/v1`;
 
+export const getClients = catchAsyncError(() => {
+    return axios.get(`${API}/clients/`);
+});
 export const isLoggedIn = catchAsyncError(() => {
     return axios.get(`${API}/users/isLoggedIn`);
 });

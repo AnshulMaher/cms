@@ -11,6 +11,7 @@ const cors = require('cors');
 
 const candidateRouter = require('../routes/candidate.routes');
 const userRouter = require('../routes/user.routes');
+const clientRouter = require('../routes/client.routes');
 
 const CustomError = require('../utils/customError');
 const globalErrorHandler = require('../utils/globalErrorHandler');
@@ -59,6 +60,7 @@ app.get('/', (req, res) => {
 });
 app.use('/api/v1/candidate', candidateRouter);
 app.use('/api/v1/users', userRouter);
+app.use('/api/v1/clients', clientRouter);
 
 app.use('*', (req, res, next) => {
     next(new CustomError(`Can't find ${req.originalUrl} on this server!`, 404));

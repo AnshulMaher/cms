@@ -8,3 +8,5 @@ export const selectJoinStatusChoices = createSelector([selectChoices], (choices)
 export const selectInterviewStatusChoices = createSelector([selectChoices], (choices) => choices.interviewStatus);
 export const selectChangeReasonChoices = createSelector([selectChoices], (choices) => choices.changeReason);
 export const selectStateChoices = createSelector([selectChoices], (choices) => choices.state);
+export const selectIsClientFetching = createSelector([selectChoices], (choices) => choices.isFetching);
+export const selectClientChoices = createSelector([selectChoices], (choices) => choices.clients);
